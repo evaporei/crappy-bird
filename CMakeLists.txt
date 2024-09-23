@@ -46,7 +46,7 @@ add_subdirectory("${THIRDPARTY_DIR}/raylib")
 # Source files
 # ------------------------------------------------------------------------------
 
-set(MY_FLAGS "-std=c++20" "-Wall")
+set(MY_FLAGS "-std=c++20" "-Wall" "-Wno-missing-braces")
 set(SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/src/main.cpp"
 )
