@@ -14,6 +14,16 @@
 #define BG_LOOP_POINT 413
 #define G_LOOP_POINT GAME_WIDTH
 
+typedef enum TextureKind {
+    TEX_BACKGROUND,
+    TEX_GROUND,
+    TEX_BIRD,
+
+    TEX_LEN
+} TextureKind;
+
+Texture2D textures[TEX_LEN];
+
 int main(void) {
 #ifndef DEBUG
     SetTraceLogLevel(LOG_ERROR);
@@ -27,9 +37,9 @@ int main(void) {
     camera.rotation = 0.0f;
     camera.zoom = 2.5f;
 
-    Texture2D background = LoadTexture("background.png");
-    Texture2D ground = LoadTexture("ground.png");
-    Texture2D bird = LoadTexture("bird.png");
+    textures[TEX_BACKGROUND] = LoadTexture("background.png");
+    textures[TEX_GROUND] = LoadTexture("ground.png");
+    textures[TEX_BIRD] = LoadTexture("bird.png");
 
     float bg_scroll = 0;
     float g_scroll = 0;
@@ -45,17 +55,16 @@ int main(void) {
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginMode2D(camera);
-                DrawTexture(background, -bg_scroll, 0, WHITE);
-                DrawTexture(ground, -g_scroll, GAME_HEIGHT - 16, WHITE);
-                DrawTexture(bird, GAME_WIDTH / 2 - bird.width / 2, GAME_HEIGHT / 2 - bird.height / 2, WHITE);
+                DrawTexture(textures[TEX_BACKGROUND], -bg_scroll, 0, WHITE);
+                DrawTexture(textures[TEX_GROUND], -g_scroll, GAME_HEIGHT - 16, WHITE);
+                DrawTexture(textures[TEX_BIRD], GAME_WIDTH / 2 - textures[TEX_BIRD].width / 2, GAME_HEIGHT / 2 - textures[TEX_BIRD].height / 2, WHITE);
             EndMode2D();
             DrawFPS(0, 0);
         EndDrawing();
     }
 
-    UnloadTexture(bird);
-    UnloadTexture(ground);
-    UnloadTexture(background);
+    for (int i = 0; i < TEX_LEN; i++)
+        UnloadTexture(textures[i]);
 
     CloseWindow();
 
