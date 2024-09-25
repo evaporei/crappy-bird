@@ -8,6 +8,12 @@ void bird_init(Bird *bird, Texture2D *texture) {
     bird->texture = texture;
 }
 
+void bird_input(Bird *bird) {
+    if (IsKeyDown(KEY_SPACE)) {
+        bird->yspeed = -5;
+    }
+}
+
 void bird_update(Bird *bird) {
     float dt = GetFrameTime();
 

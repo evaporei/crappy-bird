@@ -37,6 +37,7 @@ int main(void) {
         bg_scroll = fmod(bg_scroll, BG_LOOP_POINT);
         g_scroll = fmod(g_scroll, G_LOOP_POINT);
 
+        bird_input(&bird);
         bird_update(&bird);
 
         BeginDrawing();
