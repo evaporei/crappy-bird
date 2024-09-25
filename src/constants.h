@@ -11,3 +11,5 @@
 
 #define BG_LOOP_POINT 413
 #define G_LOOP_POINT GAME_WIDTH
+
+#define GRAVITY 20

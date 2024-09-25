@@ -4,4 +4,6 @@
 
 void bird_init(Bird *bird, Texture2D *texture);
 
+void bird_update(Bird *bird);
+
 void bird_draw(Bird bird);
