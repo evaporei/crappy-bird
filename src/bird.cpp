@@ -9,7 +9,7 @@ void bird_init(Bird *bird, Texture2D *texture) {
 }
 
 void bird_input(Bird *bird) {
-    if (IsKeyDown(KEY_SPACE)) {
+    if (IsKeyPressed(KEY_SPACE)) {
         bird->yspeed = -5;
     }
 }
