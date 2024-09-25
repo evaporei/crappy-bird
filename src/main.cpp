@@ -6,15 +6,13 @@
 #include "bird.h"
 #include "textures.h"
 
-Texture2D textures[TEX_LEN];
-
 int main(void) {
 #ifndef DEBUG
     SetTraceLogLevel(LOG_ERROR);
 #endif
-
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "flappy bird");
 
+    Texture2D textures[TEX_LEN];
     textures_init(textures);
 
     Camera2D camera = { 0 };

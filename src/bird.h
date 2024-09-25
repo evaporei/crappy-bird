@@ -1,11 +1,6 @@
 #pragma once
 
-#include <raylib.h>
-
-typedef struct Bird {
-    Vector2 pos;
-    Texture2D *texture;
-} Bird;
+#include "entities.h"
 
 void bird_init(Bird *bird, Texture2D *texture);
 
