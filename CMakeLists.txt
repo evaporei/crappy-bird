@@ -49,6 +49,8 @@ add_subdirectory("${THIRDPARTY_DIR}/raylib")
 set(MY_FLAGS "-std=c++20" "-Wall" "-Wno-missing-braces")
 set(SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/src/main.cpp"
+    "${CMAKE_SOURCE_DIR}/src/bird.cpp"
+    "${CMAKE_SOURCE_DIR}/src/textures.cpp"
 )
 
 add_executable(game ${SOURCE_FILES})

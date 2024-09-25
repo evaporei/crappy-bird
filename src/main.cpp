@@ -2,25 +2,9 @@
 
 #include <math.h>
 
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
-
-#define GAME_WIDTH 512
-#define GAME_HEIGHT 288
-
-#define BG_SPEED 30
-#define G_SPEED 60
-
-#define BG_LOOP_POINT 413
-#define G_LOOP_POINT GAME_WIDTH
-
-typedef enum TextureKind {
-    TEX_BACKGROUND,
-    TEX_GROUND,
-    TEX_BIRD,
-
-    TEX_LEN
-} TextureKind;
+#include "constants.h"
+#include "bird.h"
+#include "textures.h"
 
 Texture2D textures[TEX_LEN];
 
@@ -31,15 +15,16 @@ int main(void) {
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "flappy bird");
 
+    textures_init(textures);
+
     Camera2D camera = { 0 };
     camera.target = (Vector2){ 0, 0 };
     camera.offset = (Vector2){ 0, 0 };
     camera.rotation = 0.0f;
     camera.zoom = 2.5f;
 
-    textures[TEX_BACKGROUND] = LoadTexture("background.png");
-    textures[TEX_GROUND] = LoadTexture("ground.png");
-    textures[TEX_BIRD] = LoadTexture("bird.png");
+    Bird bird;
+    bird_init(&bird, &textures[TEX_BIRD]);
 
     float bg_scroll = 0;
     float g_scroll = 0;
@@ -57,7 +42,8 @@ int main(void) {
             BeginMode2D(camera);
                 DrawTexture(textures[TEX_BACKGROUND], -bg_scroll, 0, WHITE);
                 DrawTexture(textures[TEX_GROUND], -g_scroll, GAME_HEIGHT - 16, WHITE);
-                DrawTexture(textures[TEX_BIRD], GAME_WIDTH / 2 - textures[TEX_BIRD].width / 2, GAME_HEIGHT / 2 - textures[TEX_BIRD].height / 2, WHITE);
+
+                bird_draw(bird);
             EndMode2D();
             DrawFPS(0, 0);
         EndDrawing();
