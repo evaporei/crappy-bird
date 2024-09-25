@@ -4,6 +4,6 @@
 
 typedef struct Bird {
     Vector2 pos;
-    float yspeed;
+    double yspeed;
     Texture2D *texture;
 } Bird;

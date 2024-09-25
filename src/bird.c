@@ -10,7 +10,7 @@ void bird_init(Bird *bird, Texture2D *texture) {
 
 void bird_input(Bird *bird) {
     if (IsKeyPressed(KEY_SPACE)) {
-        bird->yspeed = -5;
+        bird->yspeed = -300;
     }
 }
 
@@ -18,7 +18,10 @@ void bird_update(Bird *bird) {
     float dt = GetFrameTime();
 
     bird->yspeed += GRAVITY * dt;
-    bird->pos.y += bird->yspeed;
+
+    bird_input(bird);
+
+    bird->pos.y += bird->yspeed * dt;
 }
 
 void bird_draw(Bird bird) {
