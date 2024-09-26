@@ -6,6 +6,7 @@ typedef enum TextureKind {
     TEX_BACKGROUND,
     TEX_GROUND,
     TEX_BIRD,
+    TEX_PIPE,
 
     TEX_LEN
 } TextureKind;

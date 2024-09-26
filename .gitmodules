@@ -1,0 +1,3 @@
+[submodule "thirdparty/selva"]
+	path = thirdparty/selva
+	url = git@github.com:evaporei/selva.git

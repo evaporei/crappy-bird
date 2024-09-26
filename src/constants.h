@@ -13,3 +13,6 @@
 #define G_LOOP_POINT GAME_WIDTH
 
 #define GRAVITY 1000
+
+#define MAX_PIPES 8
+#define PIPE_SPEED 60

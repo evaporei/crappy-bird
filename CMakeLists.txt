@@ -26,6 +26,7 @@ option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 set(THIRDPARTY_DIR "${CMAKE_SOURCE_DIR}/thirdparty")
 
 add_subdirectory("${THIRDPARTY_DIR}/raylib")
+add_subdirectory("${THIRDPARTY_DIR}/selva")
 
 # add_library(stb_image INTERFACE)
 # target_include_directories(stb_image INTERFACE thirdparty)
@@ -52,9 +53,10 @@ set(SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/src/main.c"
     "${CMAKE_SOURCE_DIR}/src/bird.c"
     "${CMAKE_SOURCE_DIR}/src/textures.c"
+    "${CMAKE_SOURCE_DIR}/src/pipe.c"
 )
 
 add_executable(game ${SOURCE_FILES})
 target_compile_options(game PUBLIC ${MY_FLAGS})
 
-target_link_libraries(game PUBLIC raylib)
+target_link_libraries(game PUBLIC raylib selva)

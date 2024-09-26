@@ -7,3 +7,8 @@ typedef struct Bird {
     double yspeed;
     Texture2D *texture;
 } Bird;
+
+typedef struct Pipe {
+    Vector2 pos;
+    float xspeed;
+} Pipe;

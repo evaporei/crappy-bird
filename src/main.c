@@ -1,10 +1,15 @@
 #include <raylib.h>
 
 #include <math.h>
+#include <memory.h>
+
+// selva
+#include <primitives.h>
 
 #include "constants.h"
 #include "bird.h"
 #include "textures.h"
+#include "pipe.h"
 
 int main(void) {
 #ifndef DEBUG
@@ -24,13 +29,27 @@ int main(void) {
     Bird bird;
     bird_init(&bird, &textures[TEX_BIRD]);
 
+    Pipe pipes[MAX_PIPES];
+    usize empty_idx = 0;
+    memset(pipes, 0, sizeof(Pipe) * MAX_PIPES);
+
     float bg_scroll = 0;
     float g_scroll = 0;
+
+    double spawn_timer = GetTime();
 
     /* SetTargetFPS(60); */
 
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
+        spawn_timer += dt;
+
+        if (spawn_timer > 2.f) {
+            spawn_timer = 0;
+            pipe_init(&pipes[empty_idx]);
+            empty_idx = (empty_idx + 1) % MAX_PIPES;
+        }
+
         bg_scroll += BG_SPEED * dt;
         g_scroll += G_SPEED * dt;
 
@@ -39,10 +58,21 @@ int main(void) {
 
         bird_update(&bird);
 
+        for (int i = 0; i < MAX_PIPES; i++) {
+            if (memcmp(&pipes[i], &(Pipe){0}, sizeof(Pipe)) != 0) {
+                pipe_update(&pipes[i]);
+            }
+        }
+
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginMode2D(camera);
                 DrawTexture(textures[TEX_BACKGROUND], -bg_scroll, 0, WHITE);
+                for (int i = 0; i < MAX_PIPES; i++) {
+                    if (memcmp(&pipes[i], &(Pipe){0}, sizeof(Pipe)) != 0) {
+                        pipe_draw(pipes[i], &textures[TEX_PIPE]);
+                    }
+                }
                 DrawTexture(textures[TEX_GROUND], -g_scroll, GAME_HEIGHT - 16, WHITE);
 
                 bird_draw(bird);
