@@ -1,6 +1,7 @@
 #pragma once
 
 #include <raylib.h>
+#include "textures.h"
 
 typedef struct Bird {
     Vector2 pos;
@@ -11,6 +12,8 @@ typedef struct Bird {
 typedef struct Pipe {
     Vector2 pos;
     float xspeed;
+    Orientation orientation;
+    Texture2D *texture;
 } Pipe;
 
 typedef struct PipePair {

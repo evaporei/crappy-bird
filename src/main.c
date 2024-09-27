@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <memory.h>
+#include <stdio.h>
 
 // selva
 #include <primitives.h>
@@ -48,11 +49,15 @@ int main(void) {
             spawn_timer = 0;
             pipe_init(
                 &pipe_pairs[empty_idx].bottom,
-                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10)
+                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10),
+                ORI_BOTTOM,
+                &textures[TEX_PIPE]
             );
             pipe_init(
                 &pipe_pairs[empty_idx].top,
-                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10) - textures[TEX_PIPE].height / 2.f
+                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10) - textures[TEX_PIPE].height / 2.f,
+                ORI_TOP,
+                &textures[TEX_PIPE]
             );
             empty_idx = (empty_idx + 1) % MAX_PIPES;
         }
@@ -69,6 +74,14 @@ int main(void) {
             if (memcmp(&pipe_pairs[i], &(PipePair){0}, sizeof(PipePair)) != 0) {
                 pipe_update(&pipe_pairs[i].bottom);
                 pipe_update(&pipe_pairs[i].top);
+
+                if (bird_collides(&bird, &pipe_pairs[i].top)) {
+                    printf("top\n");
+                } else if (bird_collides(&bird, &pipe_pairs[i].bottom)) {
+                    printf("bottom\n");
+                } else {
+                    printf("none\n");
+                }
             }
         }
 
@@ -78,8 +91,8 @@ int main(void) {
                 DrawTexture(textures[TEX_BACKGROUND], -bg_scroll, 0, WHITE);
                 for (int i = 0; i < MAX_PIPES; i++) {
                     if (memcmp(&pipe_pairs[i], &(PipePair){0}, sizeof(PipePair)) != 0) {
-                        pipe_draw(pipe_pairs[i].bottom, &textures[TEX_PIPE], ORI_BOTTOM);
-                        pipe_draw(pipe_pairs[i].top, &textures[TEX_PIPE], ORI_TOP);
+                        pipe_draw(&pipe_pairs[i].bottom);
+                        pipe_draw(&pipe_pairs[i].top);
                     }
                 }
                 DrawTexture(textures[TEX_GROUND], -g_scroll, GAME_HEIGHT - 16, WHITE);
