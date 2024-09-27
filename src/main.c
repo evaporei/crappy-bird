@@ -29,9 +29,9 @@ int main(void) {
     Bird bird;
     bird_init(&bird, &textures[TEX_BIRD]);
 
-    Pipe pipes[MAX_PIPES];
+    PipePair pipe_pairs[MAX_PIPES];
     usize empty_idx = 0;
-    memset(pipes, 0, sizeof(Pipe) * MAX_PIPES);
+    memset(pipe_pairs, 0, sizeof(PipePair) * MAX_PIPES);
 
     float bg_scroll = 0;
     float g_scroll = 0;
@@ -46,7 +46,14 @@ int main(void) {
 
         if (spawn_timer > 2.f) {
             spawn_timer = 0;
-            pipe_init(&pipes[empty_idx]);
+            pipe_init(
+                &pipe_pairs[empty_idx].bottom,
+                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10)
+            );
+            pipe_init(
+                &pipe_pairs[empty_idx].top,
+                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10) - textures[TEX_PIPE].height / 2.f
+            );
             empty_idx = (empty_idx + 1) % MAX_PIPES;
         }
 
@@ -59,8 +66,9 @@ int main(void) {
         bird_update(&bird);
 
         for (int i = 0; i < MAX_PIPES; i++) {
-            if (memcmp(&pipes[i], &(Pipe){0}, sizeof(Pipe)) != 0) {
-                pipe_update(&pipes[i]);
+            if (memcmp(&pipe_pairs[i], &(PipePair){0}, sizeof(PipePair)) != 0) {
+                pipe_update(&pipe_pairs[i].bottom);
+                pipe_update(&pipe_pairs[i].top);
             }
         }
 
@@ -69,8 +77,9 @@ int main(void) {
             BeginMode2D(camera);
                 DrawTexture(textures[TEX_BACKGROUND], -bg_scroll, 0, WHITE);
                 for (int i = 0; i < MAX_PIPES; i++) {
-                    if (memcmp(&pipes[i], &(Pipe){0}, sizeof(Pipe)) != 0) {
-                        pipe_draw(pipes[i], &textures[TEX_PIPE]);
+                    if (memcmp(&pipe_pairs[i], &(PipePair){0}, sizeof(PipePair)) != 0) {
+                        pipe_draw(pipe_pairs[i].bottom, &textures[TEX_PIPE], ORI_BOTTOM);
+                        pipe_draw(pipe_pairs[i].top, &textures[TEX_PIPE], ORI_TOP);
                     }
                 }
                 DrawTexture(textures[TEX_GROUND], -g_scroll, GAME_HEIGHT - 16, WHITE);

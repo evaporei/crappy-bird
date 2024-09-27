@@ -12,3 +12,8 @@ typedef struct Pipe {
     Vector2 pos;
     float xspeed;
 } Pipe;
+
+typedef struct PipePair {
+    Pipe top;
+    Pipe bottom;
+} PipePair;

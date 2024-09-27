@@ -11,4 +11,9 @@ typedef enum TextureKind {
     TEX_LEN
 } TextureKind;
 
+typedef enum Orientation {
+    ORI_BOTTOM,
+    ORI_TOP
+} Orientation;
+
 void textures_init(Texture2D *textures);
