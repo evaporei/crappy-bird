@@ -2,15 +2,13 @@
 
 #include <math.h>
 #include <memory.h>
-#include <stdio.h>
 
 // selva
 #include <primitives.h>
 
 #include "constants.h"
-#include "bird.h"
 #include "textures.h"
-#include "pipe.h"
+#include "scenes/selector.h"
 #include "globals.h"
 
 int main(void) {
@@ -27,38 +25,18 @@ int main(void) {
     camera.rotation = 0.0f;
     camera.zoom = 2.5f;
 
-    Bird bird;
-    bird_init(&bird);
+    SceneSelector scene_selector;
+    scene_selector_init(&scene_selector);
 
-    PipePair pipe_pairs[MAX_PIPES];
-    usize empty_idx = 0;
-    memset(pipe_pairs, 0, sizeof(PipePair) * MAX_PIPES);
-
-    float bg_scroll = 0;
-    float g_scroll = 0;
-
-    double spawn_timer = GetTime();
+    f32 bg_scroll = 0;
+    f32 g_scroll = 0;
 
     /* SetTargetFPS(60); */
 
     while (!WindowShouldClose()) {
-        float dt = GetFrameTime();
-        spawn_timer += dt;
+        scene_selector_update(&scene_selector);
 
-        if (spawn_timer > 2.f) {
-            spawn_timer = 0;
-            pipe_init(
-                &pipe_pairs[empty_idx].bottom,
-                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10),
-                ORI_BOTTOM
-            );
-            pipe_init(
-                &pipe_pairs[empty_idx].top,
-                GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10) - textures[TEX_PIPE].height / 2.f,
-                ORI_TOP
-            );
-            empty_idx = (empty_idx + 1) % MAX_PIPES;
-        }
+        f32 dt = GetFrameTime();
 
         bg_scroll += BG_SPEED * dt;
         g_scroll += G_SPEED * dt;
@@ -66,42 +44,18 @@ int main(void) {
         bg_scroll = fmod(bg_scroll, BG_LOOP_POINT);
         g_scroll = fmod(g_scroll, G_LOOP_POINT);
 
-        bird_update(&bird);
-
-        for (int i = 0; i < MAX_PIPES; i++) {
-            if (memcmp(&pipe_pairs[i], &(PipePair){0}, sizeof(PipePair)) != 0) {
-                pipe_update(&pipe_pairs[i].bottom);
-                pipe_update(&pipe_pairs[i].top);
-
-                if (bird_collides(&bird, &pipe_pairs[i].top)) {
-                    printf("top\n");
-                } else if (bird_collides(&bird, &pipe_pairs[i].bottom)) {
-                    printf("bottom\n");
-                } else {
-                    printf("none\n");
-                }
-            }
-        }
-
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginMode2D(camera);
                 DrawTexture(textures[TEX_BACKGROUND], -bg_scroll, 0, WHITE);
-                for (int i = 0; i < MAX_PIPES; i++) {
-                    if (memcmp(&pipe_pairs[i], &(PipePair){0}, sizeof(PipePair)) != 0) {
-                        pipe_draw(&pipe_pairs[i].bottom);
-                        pipe_draw(&pipe_pairs[i].top);
-                    }
-                }
+                scene_selector_draw(&scene_selector);
                 DrawTexture(textures[TEX_GROUND], -g_scroll, GAME_HEIGHT - 16, WHITE);
-
-                bird_draw(bird);
             EndMode2D();
             DrawFPS(0, 0);
         EndDrawing();
     }
 
-    for (int i = 0; i < TEX_LEN; i++)
+    for (usize i = 0; i < TEX_LEN; i++)
         UnloadTexture(textures[i]);
 
     CloseWindow();

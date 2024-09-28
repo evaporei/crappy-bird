@@ -55,6 +55,8 @@ set(SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/src/textures.c"
     "${CMAKE_SOURCE_DIR}/src/pipe.c"
     "${CMAKE_SOURCE_DIR}/src/globals.c"
+    "${CMAKE_SOURCE_DIR}/src/scenes/play.c"
+    "${CMAKE_SOURCE_DIR}/src/scenes/selector.c"
 )
 
 add_executable(game ${SOURCE_FILES})
