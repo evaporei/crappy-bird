@@ -2,7 +2,7 @@
 
 #include "entities.h"
 
-void pipe_init(Pipe *pipe, float y, Orientation orientation, Texture2D *texture);
+void pipe_init(Pipe *pipe, float y, Orientation orientation);
 
 void pipe_update(Pipe *pipe);
 

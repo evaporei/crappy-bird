@@ -11,6 +11,7 @@
 #include "bird.h"
 #include "textures.h"
 #include "pipe.h"
+#include "globals.h"
 
 int main(void) {
 #ifndef DEBUG
@@ -18,7 +19,6 @@ int main(void) {
 #endif
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "flappy bird");
 
-    Texture2D textures[TEX_LEN];
     textures_init(textures);
 
     Camera2D camera = { 0 };
@@ -28,7 +28,7 @@ int main(void) {
     camera.zoom = 2.5f;
 
     Bird bird;
-    bird_init(&bird, &textures[TEX_BIRD]);
+    bird_init(&bird);
 
     PipePair pipe_pairs[MAX_PIPES];
     usize empty_idx = 0;
@@ -50,14 +50,12 @@ int main(void) {
             pipe_init(
                 &pipe_pairs[empty_idx].bottom,
                 GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10),
-                ORI_BOTTOM,
-                &textures[TEX_PIPE]
+                ORI_BOTTOM
             );
             pipe_init(
                 &pipe_pairs[empty_idx].top,
                 GetRandomValue(GAME_HEIGHT / 2 + 30, GAME_HEIGHT - 10) - textures[TEX_PIPE].height / 2.f,
-                ORI_TOP,
-                &textures[TEX_PIPE]
+                ORI_TOP
             );
             empty_idx = (empty_idx + 1) % MAX_PIPES;
         }

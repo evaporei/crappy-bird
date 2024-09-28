@@ -54,6 +54,7 @@ set(SOURCE_FILES
     "${CMAKE_SOURCE_DIR}/src/bird.c"
     "${CMAKE_SOURCE_DIR}/src/textures.c"
     "${CMAKE_SOURCE_DIR}/src/pipe.c"
+    "${CMAKE_SOURCE_DIR}/src/globals.c"
 )
 
 add_executable(game ${SOURCE_FILES})

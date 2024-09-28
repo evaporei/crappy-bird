@@ -2,18 +2,18 @@
 
 #include <raylib.h>
 #include "constants.h"
+#include "globals.h"
 
-void pipe_init(Pipe *pipe, float y, Orientation orientation, Texture2D *texture) {
+void pipe_init(Pipe *pipe, float y, Orientation orientation) {
     switch (orientation) {
         case ORI_BOTTOM:
             pipe->pos = (Vector2){GAME_WIDTH, y};
             break;
         case ORI_TOP:
-            pipe->pos = (Vector2){GAME_WIDTH + texture->width, y};
+            pipe->pos = (Vector2){GAME_WIDTH + textures[TEX_PIPE].width, y};
             break;
     }
     pipe->orientation = orientation;
-    pipe->texture = texture;
 }
 
 void pipe_update(Pipe *pipe) {
@@ -30,5 +30,5 @@ void pipe_draw(Pipe *pipe) {
             rotation = 180.f;
             break;
     }
-    DrawTextureEx(*pipe->texture, pipe->pos, rotation, 1, WHITE);
+    DrawTextureEx(textures[TEX_PIPE], pipe->pos, rotation, 1, WHITE);
 }

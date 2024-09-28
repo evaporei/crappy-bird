@@ -2,7 +2,7 @@
 
 #include "entities.h"
 
-void bird_init(Bird *bird, Texture2D *texture);
+void bird_init(Bird *bird);
 
 void bird_input(Bird *bird);
 

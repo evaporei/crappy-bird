@@ -1,11 +1,11 @@
 #include "bird.h"
 
 #include "constants.h"
+#include "globals.h"
 
-void bird_init(Bird *bird, Texture2D *texture) {
-    bird->pos = (Vector2){GAME_WIDTH / 2.f - texture->width / 2.f, GAME_HEIGHT / 2.f - texture->height / 2.f};
+void bird_init(Bird *bird) {
+    bird->pos = (Vector2){GAME_WIDTH / 2.f - textures[TEX_BIRD].width / 2.f, GAME_HEIGHT / 2.f - textures[TEX_BIRD].height / 2.f};
     bird->yspeed = 0.f;
-    bird->texture = texture;
 }
 
 void bird_input(Bird *bird) {
@@ -17,19 +17,19 @@ void bird_input(Bird *bird) {
 bool bird_collides(Bird *bird, Pipe *pipe) {
     switch (pipe->orientation) {
         case ORI_BOTTOM:
-            if (bird->pos.x > pipe->pos.x + pipe->texture->width ||
-                    bird->pos.x + bird->texture->width < pipe->pos.x)
+            if (bird->pos.x > pipe->pos.x + textures[TEX_PIPE].width ||
+                    bird->pos.x + textures[TEX_BIRD].width < pipe->pos.x)
                 return false;
-            if (bird->pos.y > pipe->pos.y + pipe->texture->height ||
-                    bird->pos.y + bird->texture->height < pipe->pos.y)
+            if (bird->pos.y > pipe->pos.y + textures[TEX_PIPE].height ||
+                    bird->pos.y + textures[TEX_BIRD].height < pipe->pos.y)
                 return false;
             break;
         case ORI_TOP:
             if (bird->pos.x > pipe->pos.x ||
-                    bird->pos.x + bird->texture->width < pipe->pos.x - pipe->texture->width)
+                    bird->pos.x + textures[TEX_BIRD].width < pipe->pos.x - textures[TEX_PIPE].width)
                 return false;
-            if (bird->pos.y > pipe->pos.y + pipe->texture->height ||
-                    bird->pos.y + bird->texture->height < pipe->pos.y)
+            if (bird->pos.y > pipe->pos.y + textures[TEX_PIPE].height ||
+                    bird->pos.y + textures[TEX_BIRD].height < pipe->pos.y)
                 return false;
             break;
     }
@@ -47,5 +47,5 @@ void bird_update(Bird *bird) {
 }
 
 void bird_draw(Bird bird) {
-    DrawTexture(*bird.texture, bird.pos.x, bird.pos.y, WHITE);
+    DrawTexture(textures[TEX_BIRD], bird.pos.x, bird.pos.y, WHITE);
 }
