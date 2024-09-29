@@ -2,17 +2,18 @@
 
 #include <memory.h>
 #include <raylib.h>
-#include <stdio.h>
 
 #include "../bird.h"
 #include "../pipe.h"
 #include "../globals.h"
+/* #include "scenes.h" */
 
-void play_scene_init(PlayScene *scene) {
+void play_scene_init(PlayScene *scene, void *parent) {
     bird_init(&scene->bird);
     scene->empty_idx = 0;
     memset(scene->pipe_pairs, 0, sizeof(PipePair) * MAX_PIPES);
     scene->spawn_timer = GetTime();
+    scene->parent = parent;
 }
 
 void play_scene_update(PlayScene *scene) {
@@ -41,12 +42,11 @@ void play_scene_update(PlayScene *scene) {
             pipe_update(&scene->pipe_pairs[i].bottom);
             pipe_update(&scene->pipe_pairs[i].top);
 
+            // TODO: fix bad collision
             if (bird_collides(&scene->bird, &scene->pipe_pairs[i].top)) {
-                printf("top\n");
+                /* scene_selector_choose(scene->parent, TITLE_SCENE); */
             } else if (bird_collides(&scene->bird, &scene->pipe_pairs[i].bottom)) {
-                printf("bottom\n");
-            } else {
-                printf("none\n");
+                /* scene_selector_choose(scene->parent, TITLE_SCENE); */
             }
         }
     }

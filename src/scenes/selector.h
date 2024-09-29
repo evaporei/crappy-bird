@@ -1,10 +1,13 @@
 #pragma once
 
+#include "title.h"
 #include "play.h"
 #include "scenes.h"
 
 typedef struct SceneSelector {
     Scene curr;
+    Scene next;
+    TitleScene title;
     PlayScene play;
 } SceneSelector;
 

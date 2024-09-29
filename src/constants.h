@@ -16,3 +16,6 @@
 
 #define MAX_PIPES 8
 #define PIPE_SPEED 60
+
+#define MID_FONT_SIZE 14
+#define BIG_FONT_SIZE 28

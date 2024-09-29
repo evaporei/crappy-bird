@@ -18,6 +18,7 @@ int main(void) {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "flappy bird");
 
     textures_init(textures);
+    fonts_init(fonts);
 
     Camera2D camera = { 0 };
     camera.target = (Vector2){ 0, 0 };
@@ -31,7 +32,7 @@ int main(void) {
     f32 bg_scroll = 0;
     f32 g_scroll = 0;
 
-    /* SetTargetFPS(60); */
+    SetTargetFPS(60);
 
     while (!WindowShouldClose()) {
         scene_selector_update(&scene_selector);

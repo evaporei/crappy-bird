@@ -10,9 +10,10 @@ typedef struct PlayScene {
     PipePair pipe_pairs[MAX_PIPES];
     usize empty_idx;
     f64 spawn_timer;
+    void *parent;
 } PlayScene;
 
-void play_scene_init(PlayScene *scene);
+void play_scene_init(PlayScene *scene, void *parent);
 
 void play_scene_update(PlayScene *scene);
 
